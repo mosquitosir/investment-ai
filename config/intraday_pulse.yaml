@@ -1,0 +1,23 @@
+{
+  "snapshot_minutes": 5,
+  "flow_window_count": 6,
+  "breakout_hold_minutes": 10,
+  "ma_slope_days": 5,
+  "amount_ratio_days": 20,
+  "rs_short_days": 5,
+  "rs_long_days": 20,
+  "min_snapshots_for_state": 4,
+  "rally_return_threshold": 0.005,
+  "strong_change_pct": 3.0,
+  "active_volume_ratio": 1.5,
+  "quiet_volume_ratio": 0.8,
+  "high_turnover_pct": 3.0,
+  "shallow_drawdown": -0.03,
+  "weak_drawdown": -0.05,
+  "vwap_hold_strong": 0.6,
+  "vwap_hold_weak": 0.4,
+  "history_days": 120,
+  "history_timeout_seconds": 15,
+  "history_workers": 6,
+  "benchmark_index": "sh000300"
+}

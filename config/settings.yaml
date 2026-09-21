@@ -1,0 +1,56 @@
+{
+  "active_volume_ratio": 1.5,
+  "cache_stale_minutes": 30,
+  "industries": [
+    {
+      "industry_id": "H01",
+      "industry_name": "半导体设备",
+      "industry_archetype": "technology_equipment"
+    },
+    {
+      "industry_id": "H02",
+      "industry_name": "AI算力/光通信",
+      "industry_archetype": "ai_infrastructure"
+    },
+    {
+      "industry_id": "H03",
+      "industry_name": "PCB/CCL",
+      "industry_archetype": "electronic_materials"
+    },
+    {
+      "industry_id": "H04",
+      "industry_name": "MLCC/被动元件",
+      "industry_archetype": "passive_components"
+    },
+    {
+      "industry_id": "H05",
+      "industry_name": "模拟/特色芯片",
+      "industry_archetype": "specialty_chips"
+    },
+    {
+      "industry_id": "H06",
+      "industry_name": "创新药/CXO",
+      "industry_archetype": "biopharma"
+    },
+    {
+      "industry_id": "H07",
+      "industry_name": "人形机器人",
+      "industry_archetype": "robotics"
+    },
+    {
+      "industry_id": "H08",
+      "industry_name": "储能",
+      "industry_archetype": "energy_storage"
+    },
+    {
+      "industry_id": "H09",
+      "industry_name": "化工涨价/炭黑",
+      "industry_archetype": "cyclical_chemicals"
+    },
+    {
+      "industry_id": "H10",
+      "industry_name": "稀土/磁材/关键金属",
+      "industry_archetype": "critical_metals"
+    }
+  ]
+}
