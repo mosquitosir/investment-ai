@@ -233,6 +233,9 @@ class IntradayPulseService:
             for field in ['trade_date','quote_time','updated_at','data_source','data_status']:
                 if field not in row or pd.isna(row[field]):
                     row[field]=''
+            for field in ['fund_data_level','fund_flow_status','fund_flow_source','fund_flow_update_time']:
+                if field not in row or pd.isna(row[field]):
+                    row[field]='MISSING' if field in ['fund_data_level','fund_flow_status'] else ''
             row.update(pct_change=row.get('change_pct'),turnover=row.get('turnover_rate'),
                 intraday_high=row.get('high'),intraday_low=row.get('low'),captured_at=now)
             stamp=pd.to_datetime(row.get('quote_time'),errors='coerce')
@@ -249,7 +252,8 @@ class IntradayPulseService:
                 net_inflow_3d=np.nan,net_inflow_5d=np.nan,
                 minute_status='PARTIAL',industry_status='MISSING',index_status=index.get('index_status','MISSING'),
                 index_source=index.get('index_source',''),index_quote_time=index.get('index_quote_time',''),
-                amount_ratio_status='PARTIAL',l2_status='MISSING_L2',intraday_flow_status='MISSING_INTRADAY_FLOW')
+                amount_ratio_status='PARTIAL',l2_status='MISSING_L2',
+                intraday_flow_status='AVAILABLE_'+row['fund_data_level'] if row['fund_data_level'] in ['F1','F2'] else 'MISSING_INTRADAY_FLOW')
             for field in P2:
                 row[field]=np.nan
             for field in L2:

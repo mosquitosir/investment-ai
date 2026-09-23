@@ -55,6 +55,7 @@ class IntradayTests(unittest.TestCase):
         self.assertTrue(d.pulse_state.eq('INSUFFICIENT_DATA').all())
         self.assertTrue(d.amount_ratio_20.isna().all())
         self.assertTrue(d.amount_ratio_status.eq('PARTIAL').all())
+        self.assertTrue(d.fund_data_level.eq('MISSING').all())
 
     def test_excess_state_and_pulse_change(self):
         self.assertAlmostEqual(calculate_excess_return(.05,.02),.03)

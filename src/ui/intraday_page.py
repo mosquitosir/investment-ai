@@ -53,10 +53,10 @@ def render_intraday(root, mobile=True):
     frame=frame.sort_values(sort_by,ascending=ascending,na_position='last',kind='stable')
 
     table=frame[['name','code','industry_name','price','pct_change','stock_excess_return_intraday',
-        'volume_ratio_intraday','net_inflow_ratio','price_vs_vwap','incremental_flow_state',
+        'volume_ratio_intraday','net_inflow_ratio','fund_data_level','price_vs_vwap','incremental_flow_state',
         'selling_pressure_state','price_efficiency_state','continuation_state','pulse_state','data_status']].copy()
-    table.columns=['股票','代码','行业','现价','涨跌幅','行业超额','量能','净流入率','VWAP位置',
-        '资金持续性','回撤承接','价格效率','延续状态','脉象','行情状态']
+    table.columns=['股票','代码','行业','现价','涨跌幅','行业超额','量能','净流入率','资金级别',
+        'VWAP位置','资金持续性','回撤承接','价格效率','延续状态','脉象','行情状态']
     table['延续状态']=table['延续状态'].replace({'STRENGTHENING':'增强','STABLE':'稳定','WEAKENING':'衰减',
         'REVERSING':'转弱','MIXED':'混合','UNKNOWN':'未知','INSUFFICIENT_DATA':'数据不足'})
     table['资金持续性']=table['资金持续性'].replace({'UNKNOWN':'未知','INSUFFICIENT_DATA':'数据不足'})
@@ -81,6 +81,7 @@ def render_intraday(root, mobile=True):
     row=frame.iloc[idx]
     st.subheader(f'{row["name"]} · {row.code}')
     st.caption(f'行情交易日：{row.trade_date or "--"}｜行情时刻：{row.timestamp or "--"}｜已积累快照：{int(row.snapshot_count)}')
+    st.caption(f'资金数据级别：{row.fund_data_level}｜资金状态：{row.fund_flow_status}｜资金来源：{row.fund_flow_source or "--"}')
     summary=pd.DataFrame([
         ['市场支持',row.market_support_state],['位置',row.position_state],['资金增量',row.incremental_flow_state],
         ['回撤承接',row.selling_pressure_state],['价格效率',row.price_efficiency_state],

@@ -29,6 +29,16 @@ class FundFlowTests(unittest.TestCase):
         self.assertTrue(result.net_inflow_ratio.isna().all())
         self.assertTrue(result.fund_flow_status.eq('MISSING').all())
 
+    def test_fund_data_level_uses_real_available_fields(self):
+        rows = pd.DataFrame([
+            {'code':'000001','price':10.,'amount':1000.},
+            {'code':'000002','price':10.,'main_net_inflow_today':20.,'fund_flow_trade_date':'2026-09-21'},
+            {'code':'000003','price':10.,'active_net_buy':30.},
+            {'code':'000004'},
+        ])
+        result = normalize_flow(rows, now='2026-09-21T10:00:00+08:00')
+        self.assertEqual(result.fund_data_level.tolist(), ['F0','F1','F2','MISSING'])
+
     def test_flow_refresh_independent_of_quote_failure(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'data/cache') as folder:
             quote=Mock();flow=Mock()

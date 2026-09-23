@@ -9,7 +9,7 @@ import numpy as np
 FLOW_NUMERIC = ['net_inflow_today', 'main_net_inflow_today', 'net_inflow_ratio']
 FLOW_TEXT = ['fund_flow_source', 'fund_flow_update_time', 'fund_flow_trade_date',
              'fund_flow_fetched_at', 'fund_flow_status', 'fund_flow_error',
-             'main_fund_flow_status', 'net_inflow_ratio_status']
+             'main_fund_flow_status', 'net_inflow_ratio_status', 'fund_data_level']
 SOURCE = 'AKShare / 东方财富 / stock_individual_fund_flow（主力口径）'
 
 
@@ -32,6 +32,18 @@ def normalize_flow(frame, now=None, cached=False):
     # 腾讯成交额与东方财富资金流没有同源同快照保证，不计算比率。
     d['net_inflow_ratio'] = np.nan
     d['net_inflow_ratio_status'] = 'UNKNOWN'
+    # F0=仅价格/量额，F1=有明确口径的净流入，F2=有逐笔主动买卖或盘口。
+    def available(fields):
+        present = [field for field in fields if field in d]
+        if not present:
+            return pd.Series(False, index=d.index)
+        return d[present].apply(pd.to_numeric, errors='coerce').notna().any(axis=1)
+
+    has_f2 = available(['active_net_buy', 'aggressive_buy_amount', 'aggressive_sell_amount',
+                        'order_book_imbalance'])
+    has_f1 = d.net_inflow_today.notna() | d.main_net_inflow_today.notna()
+    has_f0 = available(['price', 'amount', 'volume'])
+    d['fund_data_level'] = np.select([has_f2, has_f1, has_f0], ['F2', 'F1', 'F0'], default='MISSING')
     return d
 
 
